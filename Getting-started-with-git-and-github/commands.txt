@@ -1,0 +1,88 @@
+//Use this in the git bash application(mingw64) or vscode terminal or cmd
+>git --version
+
+//Type this in the cmd
+>git config --global user.name "Noel Mathen"
+>git config --global user.email "noelmathen03@gmail.com"
+>git config --list
+
+>cd <FolderName/Path> //Change Directory
+>>cd .. //go to the previous folder
+>>mkdir <FolderName>    //create new folder in the pwd
+>ls  //list file
+>ls -a   //list all files(including hidden)
+
+//Cloning Repository on your local computer from Github
+>git clone <link>
+
+>git status //used to see whether is there any changes made/commit yet to be done or not.
+
+Different Status of files:
+U - Untracked(new files that git didnt track yet/new files)
+M - Modified(Already existing but changed files)
+Staged(file is ready to be committed)
+Unmodified(Unchanged)
+
+>git add <filename(with extension)> //To stage the modified/new file for commit, i.e, adds new/changed files in your working direcotry to git staging Already
+>git commit -m "Notes" // save the changes made in the local computer still wont be seen in the github site. for that u need to do push command
+>git push origin main   //used to save the changes made in the local computer still wont be seen in the github site. here, origin is the name of the default github repository and main is the name of the branch
+
+//CREATING FOLDERS/REPOSITORIES AND TRANFERRING IT INTO GITHUB USING init etc...
+1. create new folder 
+2. >git init    //used to create a new git repo
+3. add some new files and make changes to it
+4. >add and commit
+5. create new repository in github and copy its link
+6. >git remote add origin https://github.com/noelmathen/Local-Repository.git // used to connect your local Git repository to a remote repository hosted on GitHub.
+7. >git remote -v   //used to view the list of remote repositories associated with your local Git repository along with their corresponding URLs
+8. >git branch  // used in Git to list and manage branches within a Git repository.
+9. >git branch -M newName   //to change the name of branch
+10. >git push -u origin main    //-u: This flag stands for "upstream." When you use the -u flag, you're telling Git to set the remote repository (in this case, "origin") and the branch you're pushing to (in this case, "main") as the default upstream for the current local branch. This means that in the future, when you use the simple command "git push," Git will know which remote and branch to push to, so you don't have to specify them every time.
+
+//BRANCHING ACTUAL VERSION CONTROL USING GIT
+>git branch  // used in Git to list and manage branches within a Git repository.
+>git branch -M newName   //to change the name of branch
+>git checkout -b branchname //create new branch
+>git checkout branchname    //navigate/jump to branches
+>git branch -d branchname   //delete branches(u cannot delete a branch when u r currently using it)
+
+//MERGING TWO branches
+>git diff branchname    //compares the current branch with the branchname provided
+>git merge branchname   //The git merge command in Git is used to integrate changes from one branch into another. It's primarily used to combine the work from different branches, typically merging changes from a feature branch into the main development branch.
+
+//PULL REQUEST
+It lets you tell others about the changes youve pushed to a branch in a repository on github OR A pull request is essentially a request to merge the changes from their branch into another branch (usually the main development branch).
+* when u create a new branch and push it to github, there will be option on the top called "compare and pull request"
+* after clicking that, we will see "create pull request" so that we can request for a pull. if multiple poeple are working on the project, then maybe the team lead/senior developer can review this pull request and approve or deny
+* after that u will see a "merge pull request". after clicking that there will be a "confirm merge" option too. after ckicking that, the code willl be merged into the main branch
+* since all of this PR and mergin is done in github(remote repository) itsef, to make the changes visible in your system(local repository), set the branch to the main branch and use the following command:
+>git pull origin main   //pull changes/merges from the remote repo to the local repo
+
+//MERGING CONFLICTS
+* like we did this in the github itself, we can do it here also. 
+* first make a change in main and add and commit
+* then make a similar change in the same line in feature1 and add and commit
+* >git checkout feature1
+* >git diff main    //check  the difference between feature1 and main
+* >git merge main   //merge main to feature1
+* it will show conflict resolution page. u can add or remove or keep both as u like.
+* then commit the conflict resolution merge in feature1
+* this stilll wont be affected in main
+* so go to main and type >git merge feature1
+* this time, it wont show conflict resolution because we have already resolved it.
+* thus merge, add, commit and push
+
+
+//UNDOING CHANGES
+>git log    //To see history of commits. keep on pressing "Enter" button and you will see the previous commits. Press "Q" to stop. Every commit wil have a unique commit hash(a longs weird alphanumerical combination)
+Case 1: staged chamnges(to undo the 'add'/staged files)
+    >git reset <filename>   //to undo a specific file that was staged
+    >git reset  //to undo all the files that is currently staged
+
+Case 2: commited changes(for one commit)
+    >git reset HEAD~1   //this will take us back to the last previous commit
+
+Case 3: commited changed(for many commits)
+    >git reset <commit-hash>    //This command moves the branch pointer to a specified commit, effectively "rewinding" the branch's history to that commit. However, it leaves the changes from commits after the specified commit in the working directory as uncommitted changes. It unlinks those commits from the branch's history, making them appear as if they were never part of the branch. When you want to move the branch pointer to an earlier commit while keeping the changes from the commits after that commit in your working directory. This is useful if you want to rework or recommit those changes.
+    >git reset --hard <commit hash> //This command also moves the branch pointer to a specified commit but with a key difference—it not only moves the pointer but also discards all changes in the working directory and staging area that occurred after the specified commit. It essentially resets the branch to the exact state of the specified commit, discarding any subsequent changes. When you want to completely discard all changes made after a specific commit, including changes in the working directory and staged changes. This can be helpful when you want to start over or remove unwanted changes entirely.
+
